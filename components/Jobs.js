@@ -1,8 +1,20 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {Text, View} from 'react-native';
+import fetchJobs from '../api/fetchJobs';
 
 const Jobs = () => {
-  return <Text>Jobs</Text>;
+  const [jobId, setJobId] = useState([]);
+
+  useEffect(() => {
+    if (jobId.length === 0) {
+      fetchJobs(setJobId);
+    }
+  }, [jobId]);
+  return (
+    <View>
+      <Text>Jobs</Text>
+    </View>
+  );
 };
 
 export default Jobs;
