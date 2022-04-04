@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import Jobs from './Jobs';
 import Search from './Search';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Icon} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ const BottomTabs = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <Icon name="rocket" size={24} color={color} />
+            <Icon type="feather" name="home" size={24} color={color} />
           ),
         }}
       />
@@ -31,7 +31,9 @@ const BottomTabs = () => {
         component={Jobs}
         options={{
           tabBarLabel: 'Jobs',
-          tabBarIcon: ({color}) => <Icon name="css3" size={24} color={color} />,
+          tabBarIcon: ({color}) => (
+            <Icon type="feather" name="home" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -40,7 +42,7 @@ const BottomTabs = () => {
         options={{
           tabBarLabel: 'Search',
           tabBarIcon: ({color}) => (
-            <Icon name="sports-golf" size={24} color={color} />
+            <Icon type="feather" name="home" size={24} color={color} />
           ),
         }}
       />

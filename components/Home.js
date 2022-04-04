@@ -3,42 +3,51 @@ import {Text, View} from 'react-native';
 import fetchNews from '../api/fetchNews';
 
 const Home = () => {
-  const [newsId, setNewsId] = useState([]);
-  const [newsList, setNewsList] = useState([]);
+  const [posts, setPosts] = React.useState([]);
 
   useEffect(() => {
-    if (newsId.length === 0) {
-      fetchNews(setNewsId);
+    async function getTopStories() {
+      const url = 'https://hacker-news.firebaseio.com/v0/topstories.json';
+      try {
+        const response = await fetch(url);
+        if (response.ok === false) {
+          throw new Error('Response Error:' + response.text);
+        }
+        const json = await response.json();
+        const promises = json
+          .slice(0, 10)
+          .map(id =>
+            fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(
+              response => response.json(),
+            ),
+          );
+        const result = await Promise.all(promises);
+        setPosts(result);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    //https://hacker-news.firebaseio.com/v0/item/{item-id}.json
-    //individual news item link (replace the itemID with the id of the news item)
-    if (newsList.length === 0) {
-      setNewsList(
-        newsId.map(id => {
-          fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              setNewsList([...newsList, data]);
-              return {
-                id: id,
-                title: data.title,
-                url: data.url,
-                score: data.score,
-                by: data.by,
-                time: data.time,
-                text: data.text,
-              };
-            })
-            .catch(error => console.log(error));
-        }),
-      );
-    }
-  }, [newsId, newsList]);
+    getTopStories();
+  }, []);
+
+  if (posts.length === 0) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Here are the top 10 news</Text>
+      {posts.map(post => (
+        <View key={post.id}>
+          <Text>{post.title}</Text>
+          <Text>{post.score}</Text>
+          <Text>{post.url}</Text>
+        </View>
+      ))}
     </View>
   );
 };
