@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import Jobs from './Jobs';
 import Search from './Search';
-import {Icon} from 'react-native-elements';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,23 +13,16 @@ const BottomTabs = () => {
       initialRouteName="Home"
       showIcon={true}
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
-        tabBarInactiveTintColor: '#000',
-        tabBarIcon: ({color, size, focused}) => {
-          let iconName;
-          if (focused) {
-            iconName = 'home';
-          } else {
-            iconName = 'home-outline';
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
+        tabBarActiveTintColor: '#e32313',
       }}>
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
           tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="home" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -37,6 +30,9 @@ const BottomTabs = () => {
         component={Jobs}
         options={{
           tabBarLabel: 'Jobs',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="briefcase" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -44,6 +40,9 @@ const BottomTabs = () => {
         component={Search}
         options={{
           tabBarLabel: 'Search',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="fence" size={24} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
