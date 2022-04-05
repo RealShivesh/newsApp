@@ -15,15 +15,21 @@ const BottomTabs = () => {
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
         tabBarInactiveTintColor: '#000',
+        tabBarIcon: ({color, size, focused}) => {
+          let iconName;
+          if (focused) {
+            iconName = 'home';
+          } else {
+            iconName = 'home-outline';
+          }
+          return <Icon name={iconName} size={size} color={color} />;
+        },
       }}>
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <Icon type="feather" name="home" size={24} color={color} />
-          ),
         }}
       />
       <Tab.Screen
@@ -31,9 +37,6 @@ const BottomTabs = () => {
         component={Jobs}
         options={{
           tabBarLabel: 'Jobs',
-          tabBarIcon: ({color}) => (
-            <Icon type="feather" name="home" size={24} color={color} />
-          ),
         }}
       />
       <Tab.Screen
@@ -41,9 +44,6 @@ const BottomTabs = () => {
         component={Search}
         options={{
           tabBarLabel: 'Search',
-          tabBarIcon: ({color}) => (
-            <Icon type="feather" name="home" size={24} color={color} />
-          ),
         }}
       />
     </Tab.Navigator>
