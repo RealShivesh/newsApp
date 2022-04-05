@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import fetchNews from '../api/fetchNews';
+import {StyleSheet, Text, View} from 'react-native';
 
 const Home = () => {
   const [posts, setPosts] = React.useState([]);
@@ -40,7 +39,7 @@ const Home = () => {
 
   return (
     <View>
-      <Text>Here are the top 10 news</Text>
+      <Text style={styles.heading}>Here are the top 10 news</Text>
       {posts.map(post => (
         <View key={post.id}>
           <Text>{post.title}</Text>
@@ -51,5 +50,12 @@ const Home = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
 export default Home;

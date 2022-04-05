@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Card} from 'react-native-elements';
 import fetchJobs from '../api/fetchJobs';
 
 const Jobs = () => {
@@ -29,21 +30,50 @@ const Jobs = () => {
     }
     getJobs();
   }, []);
+
+  if (jobs.length === 0) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
-      <Text>Jobs</Text>
-      <View>
-        <Text>Here are the top 10 news</Text>
-        {jobs.map(job => (
-          <View key={job.id}>
-            <Text>{job.title}</Text>
-            <Text>{job.score}</Text>
-            <Text>{job.url}</Text>
-          </View>
-        ))}
+      <View style={styles.container}>
+        <Text style={styles.heading}>Job alerts</Text>
       </View>
+      <ScrollView
+        style={{
+          marginBottom: 40,
+        }}>
+        {jobs.map(job => (
+          <Card key={job.id}>
+            <Card.Title>{job.title}</Card.Title>
+            <Button
+              title={'View More'}
+              onPress={async () => {
+                await Linking.openURL(job.url);
+              }}
+            />
+          </Card>
+        ))}
+      </ScrollView>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
 export default Jobs;
