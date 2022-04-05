@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Card} from 'react-native-elements';
 
 const Home = () => {
   const [posts, setPosts] = React.useState([]);
@@ -39,19 +40,42 @@ const Home = () => {
 
   return (
     <View>
-      <Text style={styles.heading}>Here are the top 10 news</Text>
-      {posts.map(post => (
-        <View key={post.id}>
-          <Text>{post.title}</Text>
-          <Text>{post.score}</Text>
-          <Text>{post.url}</Text>
-        </View>
-      ))}
+      <View style={styles.container}>
+        <Text style={styles.heading}>Here are the top 10 news</Text>
+      </View>
+      <ScrollView
+        style={{
+          marginBottom: 40,
+        }}>
+        {posts.map(post => (
+          <Card key={post.id}>
+            <Card.Title>{post.title}</Card.Title>
+            <Text
+              style={{
+                marginBottom: 10,
+              }}>
+              {post.by} ({post.score}){' '}
+            </Text>
+            <Button
+              title={'View More'}
+              onPress={async () => {
+                await Linking.openURL(post.url);
+              }}
+            />
+          </Card>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
